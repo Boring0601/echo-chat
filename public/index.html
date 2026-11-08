@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#f3f3f3" />
+    <meta
+      name="description"
+      content="回声 ECHO：一个会记住你的对话者。四种性格随机相遇，记住你说过的一切，并慢慢学会用你舒服的方式回应。"
+    />
+    <title>回声 ECHO · 会记住你的对话者</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#topic-input">跳到主要内容</a>
+    <div class="grain" aria-hidden="true"></div>
+
+    <section id="landing" class="landing">
+      <header class="topbar">
+        <button class="brand brand--button" id="landing-brand" type="button" aria-label="回声 ECHO 首页">
+          <span class="brand__mark" aria-hidden="true">◐</span>
+          <span class="brand__cn">回声</span>
+          <span class="brand__en">ECHO</span>
+        </button>
+        <div class="topbar__actions">
+          <button class="text-btn" id="landing-personas" type="button">四种性格</button>
+          <button class="icon-btn" data-theme-toggle type="button" aria-label="切换纸墨主题">
+            <span class="theme-label">墨</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="hero" id="landing-main">
+        <div class="hero__copy">
+          <p class="eyebrow"><span>ECHO</span> / 一个会记住你的对话者</p>
+          <h1>有些话，<br /><span class="hero__underline">值得被记住。</span></h1>
+          <p class="lede">
+            四种性格，十六种相遇。先选性别，再选一个名字。<br class="desktop-only" />它会记住你说过的一切，并慢慢学会用你舒服的方式回应。
+          </p>
+        </div>
+
+        <div class="hero__action">
+          <form id="start-form" class="start-form" autocomplete="off">
+            <label class="sr-only" for="topic-input">你想聊的话题</label>
+            <input
+              id="topic-input"
+              name="topic"
+              type="text"
+              maxlength="200"
+              placeholder="此刻，你想聊点什么？"
+              required
+            />
+            <button class="primary-btn" type="submit">
+              <span>开始对话</span><span aria-hidden="true">→</span>
+            </button>
+          </form>
+          <p class="form-hint"><span>回车开始</span><span>记忆只留在这台设备</span></p>
+          <button id="start-default" class="default-topic-btn" type="button">
+            不写话题，直接开始 <span aria-hidden="true">→</span>
+          </button>
+          <div id="starter-chips" class="starter-chips" aria-label="示例话题"></div>
+          <button id="continue-btn" class="continue-btn" type="button" hidden>
+            继续上次对话 <span aria-hidden="true">→</span>
+          </button>
+        </div>
+
+        <section class="persona-strip" aria-label="四种人格与出现概率">
+          <div class="persona-strip__head">
+            <span>四种性格 · 16 个角色</span>
+            <span>可自选 / 随机</span>
+          </div>
+          <div id="persona-strip" class="persona-strip__grid"></div>
+        </section>
+      </main>
+
+      <footer class="landing__footer">
+        <span>ECHO / 2026</span>
+        <span>对话原文与记忆仅保存在你的浏览器</span>
+      </footer>
+    </section>
+
+    <section id="setup" class="setup" hidden>
+      <header class="setup__topbar">
+        <div class="brand" aria-label="回声 ECHO">
+          <span class="brand__mark" aria-hidden="true">◐</span>
+          <span class="brand__cn">回声</span>
+          <span class="brand__en">ECHO</span>
+        </div>
+        <div class="setup__progress">
+          <span id="setup-step-label">01 / 02</span>
+          <button class="icon-btn" id="setup-close" type="button" aria-label="取消选择">×</button>
+        </div>
+      </header>
+
+      <main id="setup-main" class="setup__main" tabindex="-1">
+        <section id="setup-gender-step" class="setup-step">
+          <p class="eyebrow"><span>01</span> / 性别</p>
+          <h1 class="setup__title">你想让谁<br />陪你聊？</h1>
+          <p class="setup__lede">先选一个性别，下一步会出现对应的人设。</p>
+          <div id="setup-gender-grid" class="gender-grid"></div>
+        </section>
+
+        <section id="setup-persona-step" class="setup-step" hidden>
+          <p class="eyebrow"><span>02</span> / 人设</p>
+          <h1 class="setup__title">选一个名字。</h1>
+          <div class="setup__context">
+            <span id="setup-gender-context"></span>
+            <button id="setup-back" class="link-btn" type="button">← 重选性别</button>
+          </div>
+          <div class="setup__special">
+            <button id="setup-no-persona" class="special-card" type="button">无人设</button>
+            <button id="setup-random-persona" class="special-card" type="button">随机人设</button>
+          </div>
+          <div id="setup-name-grid" class="name-grid" aria-label="人设名单"></div>
+          <p class="setup__hint">点击姓名直接开始 · 长按姓名查看人物简介 · 随机按 30 / 15 / 25 / 30 抽人格</p>
+        </section>
+      </main>
+
+      <footer class="setup__footer">
+        <span>记忆只保存在你的浏览器</span>
+        <span>ECHO / 16 CHARACTERS</span>
+      </footer>
+    </section>
+
+    <div id="workspace" class="workspace" hidden>
+      <aside id="topics-panel" class="sidebar" aria-label="对话列表">
+        <div class="sidebar__head">
+          <button class="brand brand--button" id="workspace-brand" type="button" aria-label="回到首页">
+            <span class="brand__mark" aria-hidden="true">◐</span>
+            <span class="brand__cn">回声</span>
+            <span class="brand__en">ECHO</span>
+          </button>
+          <button class="icon-btn sidebar__close" id="topics-close" type="button" aria-label="关闭对话列表">
+            ×
+          </button>
+        </div>
+
+        <button class="new-topic-btn" id="new-topic-sidebar" type="button">
+          <span aria-hidden="true">＋</span> 开启新话题
+        </button>
+
+        <div class="sidebar__label">
+          <span>对话 / TOPICS</span>
+          <span id="topic-count">0</span>
+        </div>
+        <nav id="topic-list" class="topic-list"></nav>
+
+        <div class="sidebar__foot">
+          <button class="foot-btn" id="open-memory" type="button">
+            <span>记忆档案</span><span id="memory-count">0</span>
+          </button>
+          <button class="foot-btn" id="open-settings" type="button">
+            <span>设置</span><span aria-hidden="true">◌</span>
+          </button>
+        </div>
+      </aside>
+
+      <main class="chat-main">
+        <header class="chat-header">
+          <button class="icon-btn mobile-only" id="open-topics" type="button" aria-label="打开对话列表">
+            ≡
+          </button>
+          <div class="chat-header__title">
+            <h2 id="chat-title">对话</h2>
+            <p id="chat-subtitle">跨话题记忆</p>
+          </div>
+          <div class="chat-header__actions">
+            <button id="persona-chip" class="persona-chip" type="button" title="查看四种性格">
+              <span id="persona-chip-sigil" class="persona-chip__sigil" aria-hidden="true">○</span>
+              <span id="persona-chip-name">温柔知心</span>
+              <span class="persona-chip__prob" id="persona-chip-prob">30%</span>
+            </button>
+            <button class="text-btn mobile-hide" id="header-memory" type="button">
+              <span>记忆</span><span class="count-dot" id="header-memory-count">0</span>
+            </button>
+            <button class="primary-btn primary-btn--small" id="new-topic-header" type="button">
+              新话题 <span aria-hidden="true">＋</span>
+            </button>
+            <button
+              class="icon-btn mobile-only"
+              id="open-insights"
+              type="button"
+              aria-label="打开洞察面板"
+            >
+              ◐
+            </button>
+          </div>
+        </header>
+
+        <div id="message-scroll" class="message-scroll">
+          <div
+            id="message-list"
+            class="message-list"
+            role="log"
+            aria-live="polite"
+            aria-label="对话内容"
+          ></div>
+          <button id="jump-latest" class="jump-latest" type="button" hidden>
+            回到最新 <span aria-hidden="true">↓</span>
+          </button>
+        </div>
+
+        <div class="composer-wrap">
+          <form id="composer" class="composer">
+            <label class="sr-only" for="message-input">输入消息</label>
+            <textarea
+              id="message-input"
+              rows="1"
+              maxlength="2000"
+              placeholder="说点什么…"
+              autocomplete="off"
+            ></textarea>
+            <button id="send-btn" class="send-btn" type="submit" aria-label="发送消息">
+              <span aria-hidden="true">↑</span>
+            </button>
+          </form>
+          <div class="composer-meta">
+            <span id="composer-hint">Enter 发送 · Shift + Enter 换行</span>
+            <span id="mode-label" class="mode-label"><i aria-hidden="true"></i>本地心智</span>
+          </div>
+        </div>
+      </main>
+
+      <aside id="insights-panel" class="insights" aria-label="人格与记忆">
+        <div class="insights__head">
+          <span class="eyebrow eyebrow--small">本次相遇 / PERSONA</span>
+          <button class="icon-btn insights__close" id="insights-close" type="button" aria-label="关闭洞察面板">
+            ×
+          </button>
+        </div>
+        <section id="persona-card" class="panel-card"></section>
+        <section class="panel-section">
+          <div class="section-head">
+            <span>它眼中的你 / READ</span>
+            <span id="trait-sample">0 句</span>
+          </div>
+          <div id="traits" class="traits"></div>
+        </section>
+        <section class="panel-section">
+          <div class="section-head">
+            <span>为你的调频 / ADAPTED</span>
+            <span>实时</span>
+          </div>
+          <ul id="habits" class="habit-list"></ul>
+        </section>
+        <section class="panel-section">
+          <div class="section-head">
+            <span>最近记住 / MEMORY</span>
+            <button class="link-btn" id="insights-memory" type="button">全部</button>
+          </div>
+          <div id="memory-preview" class="memory-preview"></div>
+        </section>
+        <p class="privacy-note">记忆只保存在你的浏览器。</p>
+      </aside>
+    </div>
+
+    <div id="overlay" class="overlay" hidden></div>
+    <aside id="drawer" class="drawer" hidden aria-label="记忆档案"></aside>
+    <div id="modal-root" class="modal-root" hidden></div>
+    <div id="toast-root" class="toast-root" aria-live="polite"></div>
+
+    <noscript>
+      <div class="noscript">回声需要 JavaScript 才能记住你。请在浏览器中启用 JavaScript。</div>
+    </noscript>
+    <script type="module" src="/js/app.js"></script>
+  </body>
+</html>

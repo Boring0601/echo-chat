@@ -1,0 +1,16 @@
+{
+  "name": "echo-memory-agent",
+  "version": "1.3.0",
+  "private": true,
+  "type": "module",
+  "description": "回声 ECHO — 会记住你的四重人格聊天 Agent",
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node server.mjs",
+    "test": "node --test --test-isolation=none",
+    "check:ui": "node scripts/ui-check.mjs"
+  },
+  "engines": {
+    "node": ">=22.8"
+  }
+}

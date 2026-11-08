@@ -1,0 +1,14 @@
+回声 ECHO 公网地址
+
+当前公网地址（临时隧道，重连后会变化）：
+https://aaeb39a1ccdc93.lhr.life
+
+本机地址：
+http://127.0.0.1:4173
+
+局域网地址（同一 Wi-Fi）：
+http://192.168.3.8:4173
+
+说明：
+- 该公网地址由 localhost.run 免费 SSH 反向隧道生成，域名随隧道重连会改变，并非永久固定。
+- 要获得永久固定域名，可改用 Cloudflare Tunnel / ngrok 固定域名，或部署到 Render / Railway / Vercel。
